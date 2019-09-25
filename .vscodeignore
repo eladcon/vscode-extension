@@ -1,0 +1,9 @@
+**/*.ts
+**/tsconfig.json
+.vscode/**
+.vscode-test/**
+test/**
+.gitignore
+tsconfig.json
+tslint.json
+yarn-error.log
