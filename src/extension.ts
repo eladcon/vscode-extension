@@ -14,6 +14,7 @@ interface Environment {
 interface Experiment {
 	flag: string;
 	environment: string;
+	appId: string;
 	platforms: [{
 		flag: string
 	}];
@@ -64,6 +65,7 @@ const fetchData = async () => {
 			const exps = await axios.get(`${baseURL}/${a.id}/${e.name}/experiments`, headers);
 			return exps.data.map((exp : Experiment) => {
 				exp.environment = e.name;
+				exp.appId = a.id;
 				return exp;
 			});
 		}));
@@ -97,9 +99,10 @@ export function activate(context: vscode.ExtensionContext) {
 				const markdown = new vscode.MarkdownString();
 				markdown.appendMarkdown(`### Rollout\n`);
 				exps.forEach(e => {
-					markdown.appendMarkdown(`### ${e.environment}`);
+					markdown.appendMarkdown(`### ${e.environment} (https://app.rollout.io/app/${e.appId})`);
 					const ue = Object.assign({}, e);
 					delete ue.environment;
+					delete ue.appId;
 					markdown.appendCodeblock(`${yaml2.safeDump(ue)}`);
 				});
 				return new vscode.Hover(markdown);
