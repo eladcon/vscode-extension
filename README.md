@@ -13,6 +13,10 @@ Guide for this sample: https://code.visualstudio.com/api/get-started/your-first-
 1. An active Rollout.io account
 2. Obtain API Token from the dashboard (under App Settings -> Integrations)
 
+## Installation
+1. Install the extension
+2. Update the `conf.rollout.apiToken` with your API Token
+
 ## Extension Settings
 
 * `conf.rollout.apiToken`: API Token from the dashboard

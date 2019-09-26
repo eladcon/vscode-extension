@@ -2,7 +2,7 @@
 	"name": "rollout",
 	"displayName": "Rollout",
 	"description": "Rollout extension for VS Code",
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"publisher": "eladcon",
 	"repository": "https://github.com/eladcon/vscode-extension",
 	"engines": {
@@ -15,7 +15,7 @@
 		"*"
 	],
 	"main": "./out/extension.js",
-	"icon": "./login-logo.png",
+	"icon": "login-logo.png",
 	"contributes": {
 		"configuration": [
 			{
