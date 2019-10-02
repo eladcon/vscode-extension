@@ -1,9 +1,12 @@
+import { FlagResult } from './flagResult';
+
 const jsTokens = require('js-tokens').default;
 
-const flagLineRegex = /isEnabled\(|value\(/;
+const flagLineRegex = /isEnabled\(|value\(|Variant\(|Flag\(/;
+const possibleTokens = ['isEnabled', 'value', 'Variant', 'Flag'];
 
 export function getFlag(text : string = '') {
-  let flagName : string | undefined = undefined;
+  let flagResult : FlagResult | undefined = undefined;
   if (!flagLineRegex.test(text)) {
     return;
   }
@@ -11,22 +14,33 @@ export function getFlag(text : string = '') {
   if (!tokens) {
     return;
   }
-  const isEnabledIndex = tokens.findIndex(x => x === 'isEnabled' || x === 'value');
-  const afterIsEnabled = tokens.splice(isEnabledIndex + 1);
-  const afterToken = afterIsEnabled.findIndex(t => t.match(/\w+/));
-  if (afterToken !== -1) {
-    const closeCall = afterIsEnabled.findIndex(t => t === ')');
-    if (afterIsEnabled[afterToken].match(/('|"|`).*('|"|`)/) && closeCall > afterToken) {
-      flagName = afterIsEnabled[afterToken].replace(/('|"|`)/g, '');
+  const isEnabledIndex = tokens.findIndex(x => possibleTokens.find(t => t === x));
+  const token = tokens[isEnabledIndex];
+  if (token === 'isEnabled' || token === 'value'){
+    const afterIsEnabled = tokens.splice(isEnabledIndex + 1);
+    const afterToken = afterIsEnabled.findIndex(t => t.match(/\w+/));
+    if (afterToken !== -1) {
+      const closeCall = afterIsEnabled.findIndex(t => t === ')');
+      if (afterIsEnabled[afterToken].match(/('|"|`).*('|"|`)/) && closeCall > afterToken) {
+        flagResult = { name: afterIsEnabled[afterToken].replace(/('|"|`)/g, ''), isDynamicAPI: true };
+      }
+    }
+    if (!flagResult) {
+      flagResult = { name: tokens.slice(0, isEnabledIndex).reverse().find(t => t.match(/\w/g)), isDynamicAPI: false };
+    }
+  } else if (token === 'Variant' || token === 'Flag'){
+    const afterNameIndex = tokens.slice(0, isEnabledIndex).findIndex(t => t === ':');
+    if (afterNameIndex !== -1) {
+      flagResult = { name: tokens.slice(0, afterNameIndex).reverse().find(t => t.match(/\w/g)), isDynamicAPI: false };
     }
   }
-  if (!flagName) {
-    flagName = tokens.slice(0, isEnabledIndex).reverse().find(t => t.match(/\w/g));
-  }
 
-  return flagName;
+  return flagResult;
 }
 
-export function shouldHover(hoverToken : string, flagName : string) {
-  return hoverToken === flagName || hoverToken === 'isEnabled' || hoverToken === 'value';
+export function shouldHover(hoverToken : string, flagResult : FlagResult) {
+  if (possibleTokens.find(t => t === hoverToken)) {
+    return true;
+  }
+  return flagResult.name!.includes(hoverToken);
 }

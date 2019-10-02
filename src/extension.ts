@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 const axios = require('axios');
 const yaml2 = require('js-yaml');
 import { getFlag, shouldHover } from './javascript';
+import { FlagResult } from './flagResult';
 const Rox = require('rox-node');
 
 interface App {
@@ -82,16 +83,23 @@ export function activate(context: vscode.ExtensionContext) {
 	let hoverProvider : vscode.HoverProvider = {
 		provideHover(document, position, token) {
 			const line = document.lineAt(position);
-			let flagName = getFlag(line.text);
-			if (flagName) {
-				const exps = allExps.filter(e => e.flag ? e.flag.includes(flagName!) : e.platforms.find(p => p.flag.includes(flagName!)));
+			let flagResult = getFlag(line.text);
+			if (flagResult && flagResult.name) {
+				const flagIncludes = (flagName: string, flagResult: FlagResult) => {
+					if (flagResult.isDynamicAPI) {
+						return flagName === flagResult.name;
+					} else {
+						return flagName.includes(flagResult.name!);
+					}
+				};
+				const exps = allExps.filter(e => e.flag ? flagIncludes(e.flag, flagResult!) : e.platforms.find(p => flagIncludes(p.flag, flagResult!)));
 				if (!exps || !exps.length) {
 					return;
 				}
 
 				const useLineForHover = vscode.workspace.getConfiguration().get('conf.rollout.useLineForHover');
 				const hoverToken = document.getText(document.getWordRangeAtPosition(position));
-				const showHover = !!useLineForHover || shouldHover(hoverToken, flagName);
+				const showHover = !!useLineForHover || shouldHover(hoverToken, flagResult);
 				if (!showHover) {
 					return;
 				}
