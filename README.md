@@ -3,6 +3,7 @@
 This extension provides data about your Rollout.io's experiments from within VS Code.
 
 Hover with the mouse on either your flag name or the isEnabled/getValue function to see the experiment data.
+You can also hover the definition of the flag (`{ someFlag: new Rox.Flag() }`)
 
 Currently only javascript and typescript are supported.
 
@@ -25,6 +26,10 @@ Guide for this sample: https://code.visualstudio.com/api/get-started/your-first-
 * `conf.rollout.useLineForHover`: Hover anywhere in a line which contains a flag to see the experiment data
 
 ## Release Notes
+
+### 0.2.0
+
+Add hover to containers as well
 
 ### 0.0.1
 
