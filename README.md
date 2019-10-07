@@ -7,8 +7,6 @@ You can also hover the definition of the flag (`{ someFlag: new Rox.Flag() }`)
 
 Currently only javascript and typescript are supported.
 
-Guide for this sample: https://code.visualstudio.com/api/get-started/your-first-extension.
-
 ## Requirements
 
 1. An active Rollout.io account
