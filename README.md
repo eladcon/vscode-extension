@@ -27,7 +27,7 @@ Currently only javascript and typescript are supported.
 
 ## Release Notes
 
-### 0.2.0
+### 0.2.1
 
 Add hover to containers as well
 
