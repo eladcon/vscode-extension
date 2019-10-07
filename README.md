@@ -7,6 +7,8 @@ You can also hover the definition of the flag (`{ someFlag: new Rox.Flag() }`)
 
 Currently only javascript and typescript are supported.
 
+![Hover Example](hover.png)
+
 ## Requirements
 
 1. An active Rollout.io account
@@ -15,8 +17,6 @@ Currently only javascript and typescript are supported.
 ## Installation
 1. Install the extension
 2. Update the `conf.rollout.apiToken` with your API Token
-
-![Hover Example](hover.png)
 
 ## Extension Settings
 
