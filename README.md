@@ -27,6 +27,10 @@ Currently only javascript and typescript are supported.
 
 ## Release Notes
 
+### 0.3.0
+
+Handle errors while fetching data
+
 ### 0.2.1
 
 Add hover to containers as well

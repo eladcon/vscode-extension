@@ -34,8 +34,11 @@ const start = async () => {
 
 	const startTimer = async () => {
 		setTimeout(async () => {
-		  await fetchData();
-			startTimer();
+			try {
+				await fetchData();
+			} finally {
+				startTimer();
+			}
 		}, parseInt(container.fetchIntervalMS.getValue()));
 	};
 
