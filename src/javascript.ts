@@ -2,8 +2,8 @@ import { FlagResult } from './flagResult';
 
 const jsTokens = require('js-tokens').default;
 
-const flagLineRegex = /isEnabled\(|value\(|Variant\(|Flag\(/;
-const possibleTokens = ['isEnabled', 'value', 'Variant', 'Flag'];
+const flagLineRegex = /isEnabled\(|getValue\(|Variant\(|Flag\(/;
+const possibleTokens = ['isEnabled', 'getValue', 'Variant', 'Flag'];
 
 export function getFlag(text : string = '') {
   let flagResult : FlagResult | undefined = undefined;
@@ -16,7 +16,7 @@ export function getFlag(text : string = '') {
   }
   const isEnabledIndex = tokens.findIndex(x => possibleTokens.find(t => t === x));
   const token = tokens[isEnabledIndex];
-  if (token === 'isEnabled' || token === 'value'){
+  if (token === 'isEnabled' || token === 'getValue'){
     const afterIsEnabled = tokens.splice(isEnabledIndex + 1);
     const afterToken = afterIsEnabled.findIndex(t => t.match(/\w+/));
     if (afterToken !== -1) {

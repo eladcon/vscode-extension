@@ -8,34 +8,34 @@ describe('Get Flag',
       expect(getFlag('if (something.stam() {')).to.equal(undefined);
     }); 
     it('should return flag with container usage', () => {
-      let res = getFlag('if (con.flag1.value() {')!;
+      let res = getFlag('if (con.flag1.getValue() {')!;
       expect(res!.name).to.equal('flag1');
       expect(res!.isDynamicAPI).to.equal(false);
       res = getFlag('if (con.flag1.isEnabled() {')!;
       expect(res!.name).to.equal('flag1');
       expect(res!.isDynamicAPI).to.equal(false);
-      res = getFlag('if (flag1.value() {')!;
+      res = getFlag('if (flag1.getValue() {')!;
       expect(res!.name).to.equal('flag1');
       expect(res!.isDynamicAPI).to.equal(false);
       res = getFlag('if (flag1.isEnabled() {')!;
       expect(res!.name).to.equal('flag1');
       expect(res!.isDynamicAPI).to.equal(false);
-      res = getFlag('if (con.flag1.value({ context: {} }) {')!;
+      res = getFlag('if (con.flag1.getValue({ context: {} }) {')!;
       expect(res!.name).to.equal('flag1');
       expect(res!.isDynamicAPI).to.equal(false);
       res = getFlag('if (con.flag1.isEnabled({ context: {} }) {')!;
       expect(res!.name).to.equal('flag1');
       expect(res!.isDynamicAPI).to.equal(false);
 
-      res = getFlag('if (con.flag1.value({ context: {} }) === "xxxx" {')!;
+      res = getFlag('if (con.flag1.getValue({ context: {} }) === "xxxx" {')!;
       expect(res!.name).to.equal('flag1');
       expect(res!.isDynamicAPI).to.equal(false);
-      res = getFlag('if (con.flag1.value() === "xxxx" {')!;
+      res = getFlag('if (con.flag1.getValue() === "xxxx" {')!;
       expect(res!.name).to.equal('flag1');
       expect(res!.isDynamicAPI).to.equal(false);
     }); 
     it('should return flag when dynamic api', () => {
-      let res = getFlag('if (dynamic.value("flag1") {');
+      let res = getFlag('if (dynamic.getValue("flag1") {');
       expect(res!.name).to.equal('flag1');
       expect(res!.isDynamicAPI).to.equal(true);
       res = getFlag('if (dynamic.isEnabled("flag1") {')!;
@@ -48,7 +48,7 @@ describe('Get Flag',
       expect(res!.name).to.equal('flag1');
       expect(res!.isDynamicAPI).to.equal(true);
 
-      res = getFlag('if (dynamic.value("flag1") === "xxxxx" {')!;
+      res = getFlag('if (dynamic.getValue("flag1") === "xxxxx" {')!;
       expect(res!.name).to.equal('flag1');
       expect(res!.isDynamicAPI).to.equal(true);
     });
